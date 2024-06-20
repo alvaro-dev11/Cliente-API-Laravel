@@ -1,14 +1,17 @@
 <?php
 
+use App\Http\Controllers\ClientsController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
 
 
-Route::get('/', function () {
-    $response = Http::get('http://127.0.0.1:8000/api/clients/');
-    $data = $response->json();
-    foreach ($data as $client) {
-        echo $client['name'] . ' ' . $client['email'];
-        echo '<br/>';
-    }
-});
+Route::get('/', [ClientsController::class, 'index'])->name('client.index');
+
+Route::get('new-client', [ClientsController::class, 'create'])->name('client.create');
+
+Route::post('client', [ClientsController::class, 'store'])->name('client.store');
+
+Route::get('client/delete/{id}', [ClientsController::class, 'delete'])->name('client.delete');
+
+Route::get('client/{id}', [ClientsController::class, 'show'])->name('client.show');
+
+Route::post('client/update', [ClientsController::class, 'update'])->name('client.update');
